@@ -1,0 +1,17 @@
+package com.liuxu.normal;
+
+public class StringClass {
+
+	public static void main(String[] args) {
+	//字符串的赋值与比较
+    String a = "ab";
+    String b = "ab";
+    String c  = new String("ab");
+	//.equals比较的是值 ；==比较的是内存地址
+	if (a.equals(c)) {
+	System.out.println("数值相等");	
+	}
+	System.out.println("数值不等");
+	}
+
+}

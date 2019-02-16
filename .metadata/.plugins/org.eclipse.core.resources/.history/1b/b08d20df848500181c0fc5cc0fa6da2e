@@ -1,0 +1,36 @@
+package com.match.controller;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ *
+ * @author LiuXu
+ * @time2018年7月11日下午7:04:29
+ **/
+public class LoginServlet extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		// 获取登录数据
+		String uid = req.getParameter("uid");
+		String name = req.getParameter("name");
+		String age = req.getParameter("age");
+		String sex = req.getParameter("sex");
+		String psw = req.getParameter("psw");
+		String answer = req.getParameter("answer");
+		String address = req.getParameter("address");
+
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		this.doGet(req, resp);
+	}
+
+}

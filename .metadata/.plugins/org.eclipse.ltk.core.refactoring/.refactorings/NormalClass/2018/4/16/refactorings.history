@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename compilation unit &apos;com.liuxu.normal.ArraysClass.java&apos; to &apos;StringClass.java&apos;&#x0D;&#x0A;- Original project: &apos;NormalClass&apos;&#x0D;&#x0A;- Original element: &apos;com.liuxu.normal.ArraysClass.java&apos;&#x0D;&#x0A;- Renamed element: &apos;com.liuxu.normal.StringClass.java&apos;" description="Rename compilation unit &apos;ArraysClass.java&apos;" flags="2" id="org.eclipse.jdt.ui.rename.compilationunit" input="/src&lt;com.liuxu.normal{ArraysClass.java" name="StringClass.java" references="false" stamp="1524143371723" version="1.0"/>
+</session>

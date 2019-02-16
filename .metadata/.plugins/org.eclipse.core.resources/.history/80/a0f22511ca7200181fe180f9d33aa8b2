@@ -1,0 +1,22 @@
+package work;
+
+import java.util.Calendar;
+import java.util.Date;
+
+/**
+ * 常用类 Calendar(抽象类)
+ * @author asus
+ *
+ */
+public class Test2 {
+
+	public static void main(String[] args) {
+//		通过静态对象获得一个对象
+		Calendar calendar = Calendar.getInstance();
+		
+		Date date = calendar.getTime();
+		System.out.println(date);
+		
+	}
+	
+}

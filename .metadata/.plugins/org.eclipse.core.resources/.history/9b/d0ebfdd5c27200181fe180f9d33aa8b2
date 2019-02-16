@@ -1,0 +1,23 @@
+package work;
+
+import java.util.Date;
+
+/**
+ * 常用类 --Date
+ * @author asus
+ *
+ */
+public class Test {
+
+	/*
+	 * 主函数
+	 */
+	public static void main(String[] args) {
+		
+		Date date = new Date();
+		System.out.println(date);
+		
+		
+	}
+	
+}

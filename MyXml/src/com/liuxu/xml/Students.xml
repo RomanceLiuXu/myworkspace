@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Students>
+
+	<student>
+		<name>liuxu</name>
+		<age>17</age>
+	</student>
+
+	<student>
+		<name>哈哈</name>
+		<age>16</age>
+	</student>
+
+	<student>
+
+		<name>美美</name>
+		<age>10</age>
+	</student>
+
+
+</Students>

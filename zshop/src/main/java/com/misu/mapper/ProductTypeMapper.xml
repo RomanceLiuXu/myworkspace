@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <!-- 商品类型映射文件 -->
+ <mapper namespace="com.misu.mapper.ProductTypeMapper">
+ <sql id="ptypeColumns">
+    id,name,status
+ </sql>
+ 	<resultMap type="com.misu.bean.ProductType" id="productTypeMapper">
+ 	<!-- 一方：商品类型 -->
+ 	<id property="id" column="id"/>
+ 	<result property="name" column="name"/>
+ 	<result property="status" column="status"/>
+ 	<!-- 多方集合：商品 -->
+ 	<collection property="productList" ofType="com.misu.bean.Product">
+ 	<id property="id" column="id"/>
+ 	<result property="name" column="name"/>
+ 	<result property="price" column="price"/>
+ 	<result property="info" column="info"/>
+ 	<result property="image" column="image"/>
+ 	</collection>
+ 	</resultMap>
+    <!-- 查询所有商品类型 -->
+    <select id="findAllProductType" resultMap="productTypeMapper">
+    	select <include refid="ptypeColumns"/> from t_product_type
+    </select>
+     <!-- 查询所有启用的商品类型 -->
+    <select id="findAllProductTypeUsing" resultMap="productTypeMapper">
+    	select <include refid="ptypeColumns"/> from t_product_type where status=1
+    </select>
+    <!-- 根据id查询商品类型 -->
+    <select id="findProductTypeById" resultMap="productTypeMapper" parameterType="int">
+    	select <include refid="ptypeColumns"/> from t_product_type where id=#{id}
+    </select> 
+  <!-- 根据name查询商品类型 -->
+    <select id="findProductTypeByName" resultMap="productTypeMapper" parameterType="string">
+    	select <include refid="ptypeColumns"/> from t_product_type where name=#{name}
+    </select> 
+    <!-- 添加商品类型 -->
+    <insert id="addProductType" parameterType="productType">
+    	insert into t_product_type values(0,#{name},1);
+    </insert>
+    <!-- 修改商品类型 -->
+    <update id="updateProductType" parameterType="productType">
+    	update t_product_type set name=#{name} where id=#{id};
+    </update>
+    <!-- 是否禁用或开启某商品 -->
+    <update id="updateProductStatus" parameterType="productType">
+    	update t_product_type set status=#{status} where id=#{id};
+    </update>
+    <!-- 删除商品类型 -->
+    <delete id="deleteProductType" parameterType="int">
+    	delete from t_product_type where id=#{id}
+    </delete>
+    <!-- 删除商品类型后删除类型下对应的商品 -->
+    <delete id="deleteSameTypeProduct" parameterType="int">
+    	delete from t_product where product_type_id=#{product_type_id};
+    </delete>
+    
+    
+ </mapper>

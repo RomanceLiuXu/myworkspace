@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 elements to &apos;layer&apos;&#x0D;&#x0A;- Original project: &apos;SSHRestful&apos;&#x0D;&#x0A;- Destination element: &apos;layer&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     layer.js&#x0D;&#x0A;     theme" description="Copy elements" element1="WebContent/js/layer.js" element2="WebContent/js/theme" files="1" flags="589830" folders="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1538471001930" target="/zshop/src/main/webapp/layer" units="0" version="1.0"/>
+</session>

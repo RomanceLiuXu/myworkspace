@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 2 packages to &apos;phoneValidate/src/main/java&apos;&#x0D;&#x0A;- Original project: &apos;javaHttpApiDemo&apos;&#x0D;&#x0A;- Destination element: &apos;phoneValidate/src/main/java&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     javaHttpApiDemo/src/com.miaodiyun.httpApiDemo.common&#x0D;&#x0A;     javaHttpApiDemo/src/com.miaodiyun.httpApiDemo" description="Copy packages" destination="=phoneValidate/src\/main\/java" element1="/src&lt;com.miaodiyun.httpApiDemo.common" element2="/src&lt;com.miaodiyun.httpApiDemo" flags="589830" fragments="2" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1538385845812" version="1.0"/>
+</session>

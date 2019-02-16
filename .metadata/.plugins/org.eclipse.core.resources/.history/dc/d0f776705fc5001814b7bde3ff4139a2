@@ -1,0 +1,9 @@
+package com.miaodiyun.httpApiDemo;
+
+public class MyMain {
+
+	public static void main(String[] args) {
+		String randomNum = IndustrySMS.getRandomNum(6);
+		IndustrySMS.execute("18829298795", randomNum);
+	}
+}

@@ -1,0 +1,31 @@
+package work;
+
+import java.util.Date;
+
+/**
+ * 常用类 --Date
+ * 
+ * @author asus
+ *
+ */
+public class Test {
+
+	/*
+	 * 主函数
+	 */
+	public static void main(String[] args) {
+
+		// 实例化 --获取当前的时间
+		Date date = new Date();
+
+		System.out.println(date);
+		
+//	      常见方法
+		
+		long d1 = date.getTime();
+		System.out.println(d1);
+		
+
+	}
+
+}

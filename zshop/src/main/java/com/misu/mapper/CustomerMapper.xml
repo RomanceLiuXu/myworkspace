@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <!-- 商品类型映射文件 -->
+ <mapper namespace="com.misu.mapper.CustomerMapper">
+ 
+ <!-- id int primary key auto_increment,
+	name varchar(20),
+	login_name varchar(20) not null unique,
+	password varchar(50),
+	phone varchar(20),
+	address varchar(30),
+	is_valid int,
+	regist_date datetime  注册时间 -->
+	
+ <insert id="addCustomer" parameterType="customer">
+ 	insert into t_customer values(
+ 	0,
+ 	#{name},
+ 	#{login_name},
+ 	#{password},
+ 	#{phone},
+ 	#{address},
+ 	#{is_valid},
+ 	#{regist_date}
+ 	);
+ </insert>
+ 
+ <!-- 根据条件查询所有用户 -->
+ <select id="findAllCustomer" resultType="customer" parameterType="customer">
+ 	select * from t_customer 
+ 	<where>
+ 		<if test="name!=null and name!=''">
+			name like concat(concat('%',#{name}),'%')
+		</if>
+		<if test="login_name!=null and login_name!=''">
+			and login_name like concat(concat('%',#{login_name}),'%')
+		</if>
+		<if test="password!=null and password!=''">
+			and password=#{password}
+		</if>
+		<if test="phone!=null and phone!=''">
+			and phone like concat(concat('%',#{phone}),'%')
+		</if>
+		<if test="address!=null and address!=''">
+			and address like concat(concat('%',#{address}),'%')
+		</if>
+		<if test="is_valid!=null and is_valid!=-1">
+			and is_valid=#{is_valid}
+		</if>
+ 	</where>
+ </select>
+ 
+   <update id="updateCustomer" parameterType="customer">
+		update t_customer 
+		<set>
+		<if test="name!=null">
+			name=#{name},
+		</if>
+		<if test="login_name!=null">
+			login_name=#{login_name},
+		</if>
+		<if test="password!=null">
+			password=#{password},
+		</if>
+		<if test="phone!=null">
+			phone=#{phone},
+		</if>
+		<if test="address!=null">
+			address=#{address},
+		</if>
+		<if test="is_valid!=null">
+			is_valid=#{is_valid},
+		</if>
+		</set>
+		where id=#{id}
+   </update>
+   
+   <!-- 是否禁用某个用户 -->
+   <update id="updateCustomerStatus" parameterType="customer">
+   		update t_customer set is_valid=#{is_valid} where id=#{id}
+   </update>
+   
+   <select id="findCustomerById" parameterType="int" resultType="customer">
+   		select * from t_customer where id=#{id}
+   </select>
+   
+   <!-- 新增用户 -用户注册 -->
+   <!-- <insert id="addCustomer">
+   		insert into t_customer values(0,#{name},#{loginName},#{password},#{phone},#{address},#{is_valid},#{datetime})
+   </insert> -->
+   
+   <!-- 用户账号密码登录 -->
+   <select id="findCustomer" parameterType="customer" resultType="customer">
+   		select * from t_customer where login_name=#{login_name} and password=#{password}
+   </select>
+   
+   <!-- 用户手机登录 验证手机是否已经注册 -->
+   <select id="findCustomerByPhone" parameterType="string" resultType="customer">
+   		select * from t_customer where phone=#{phone}
+   </select>
+   
+   <!-- <update id="updatePassword" parameterType="">
+   		
+   </update> -->
+   
+   
+ </mapper>

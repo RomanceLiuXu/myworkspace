@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <!-- 商品类型映射文件 -->
+ <mapper namespace="com.misu.mapper.ProductMapper">
+ <sql id="pColumns">
+    id,name,price,info,image,product_type_id
+ </sql>
+ 	<resultMap type="com.misu.bean.Product" id="productMapper">
+ 	<id property="id" column="id"/>
+ 	<result property="name" column="name"/>
+ 	<result property="price" column="price"/>
+ 	<result property="info" column="info"/>
+ 	<result property="image" column="image"/>
+ 	<!-- 关联的一方 -->
+ 	<association property="productType" javaType="com.misu.bean.ProductType" column="product_type_id">
+ 	<id property="id" column="pt.id"/>
+ 	<result property="name" column="pt.name"/>
+ 	<result property="status" column="status"/>
+ 	</association>
+ 	</resultMap>
+ 	
+ 	<resultMap type="com.misu.common.ProductInfo" id="productInfo">
+ 		<id property="productTypeId" column="tp.id"/>
+ 		<result property="productTypeName" column="tp.name"/>
+ 		<result property="status" column="tp.status"/>
+ 		<result property="num" column="num"/>
+ 	</resultMap>
+ 	
+ 	<!-- 新增商品 -->
+ 	<insert id="addProduct" parameterType="product">
+ 		insert into t_product values(0,#{name},#{price},#{info},#{image},#{productType.id})
+ 	</insert>
+    <!-- 查询所有商品 -->
+    <select id="findAllProduct" resultMap="productMapper">
+    	 select p.id,p.name,p.price,p.info,p.image,p.product_type_id,pt.id 'pt.id',pt.name 'pt.name',pt.status
+        from t_product p
+          left join t_product_type pt
+          on p.product_type_id=pt.id
+    </select>
+     <!-- 查询所有启用的商品 -->
+    <select id="findAllUsingProduct" resultMap="productMapper">
+    	 select p.id,p.name,p.price,p.info,p.image,p.product_type_id,pt.id 'pt.id',pt.name 'pt.name',pt.status
+        from t_product p
+          left join t_product_type pt
+          on p.product_type_id=pt.id where pt.status=1;
+    </select>
+     <!-- 查询所有未启用的商品 -->
+    <select id="findAllNotUsingProduct" resultMap="productMapper">
+    	 select p.id,p.name,p.price,p.info,p.image,p.product_type_id,pt.id 'pt.id',pt.name 'pt.name',pt.status
+        from t_product p
+          left join t_product_type pt
+          on p.product_type_id=pt.id where pt.status=0;
+    </select>
+  <!-- 根据id查询某个商品 -->
+    <select id="findProductById" resultMap="productMapper" parameterType="int">
+    	select p.id,p.name,p.price,p.info,p.image,p.product_type_id,pt.id 'pt.id',pt.name 'pt.name',pt.status
+        from t_product p
+          left join t_product_type pt
+          on p.product_type_id=pt.id where p.id=#{id};
+    </select>
+    <!-- 根据名称查找某个商品 -->
+    <select id="findProductByName" parameterType="string" resultType="product">
+    	select * from t_product where name=#{name}
+    </select>
+     <!-- 根据id删除某个商品 -->
+    <delete id="deleteProductById" parameterType="int">
+    	delete from t_product where id=#{id}
+    </delete>
+    <!-- 修改某个商品 -->
+    <update id="updateProduct" parameterType="product">
+    	update t_product 
+    	<set>
+    	<if test="name!=null">
+    	name=#{name},
+    	</if>
+    	<if test="price!=0">
+    	price=#{price},
+    	</if>
+    	<if test="info!=null">
+    	info=#{info},
+    	</if>
+    	<if test="image!=null">
+    	image=#{image},
+    	</if>
+    	<if test="product_type_id!=0">
+    	product_type_id=#{product_type_id},
+    	</if>
+    	</set>
+    	where id=#{id}
+    </update>
+    
+    <!-- 根据参数动态查询 -->
+    <select id="findProductByParam" parameterType="com.misu.common.ProductParam" resultMap="productMapper">
+		select p.id,p.name,p.price,p.info,p.image,p.product_type_id,pt.id 'pt.id',pt.name 'pt.name',pt.status
+        from t_product p
+          left join t_product_type pt
+          on p.product_type_id=pt.id
+		<where>
+		<if test="minPrice!=null and maxPrice==null">
+			and p.price &gt;#{minPrice}
+		</if>
+		<if test="minPrice==null and maxPrice!=null">
+			and p.price &lt;#{maxPrice}
+		</if>
+		<if test="name!=null and name!=''">
+		 and p.name like concat(concat('%',#{name}),'%')
+		</if>
+		<if test="productTypeId!=null and productTypeId!=-1">
+			and p.product_type_id=#{productTypeId}
+		</if>
+			and pt.status=1
+		</where> 
+    </select>
+    
+    <select id="selectPorductTypeNum" resultMap="productInfo">
+    	select tp.id 'tp.id',tp.status 'tp.status',tp.name 'tp.name', count(*) num from t_product t left join t_product_type tp on t.product_type_id = tp.id group by t.product_type_id
+    </select>
+ </mapper>

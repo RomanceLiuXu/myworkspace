@@ -1,0 +1,16 @@
+
+/**
+*
+*@author LiuXu
+*@version 2018年10月15日下午3:07:29 
+*/
+public class A {
+
+	A(){
+		System.out.println("a");
+	}
+	
+	public void s(){
+		
+	}
+}

@@ -1,0 +1,171 @@
+package com.lanou.test;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+
+/**
+ * java代码操作redis数据库
+ * 
+ * @author jr
+ * @time 2018年9月28日下午5:35:52
+ **/
+public class TestRedis {
+	/**
+	 * jedis数据库连接池
+	 */
+
+	JedisPool pool;
+	Jedis jedis;
+
+	@Before
+	public void init() {
+		pool = new JedisPool(new JedisPoolConfig(), "localhost");
+		jedis = pool.getResource();
+	}
+
+	/**
+	 * jedis对redis字符串类型数据操作
+	 */
+	@Test
+	public void testString() {
+         //1、添加数据
+		jedis.set("username", "张三");
+		// 根据key获取value输出
+		String value = jedis.get("username");
+		System.out.println(value);
+		
+		// 在原来value值基础上再去添加数据
+		jedis.append("username", "sa");
+		value = jedis.get("username");
+		System.out.println(value);
+	
+		// 删除key-value键值对
+		jedis.del("username");
+		value = jedis.get("username");
+		System.out.println(value);
+		
+		//同时插入两个以上key-value键值对
+		jedis.mset("username","lisi","password","123","age","18");
+		// 根据key获取多个键值对
+		System.out.println(jedis.mget("username","password","age"));
+		
+	}
+	
+	/**
+	 * jedis对redis中map集合操作
+	 * 一般存储一个java对象使用此方式
+	 */
+	@Test
+	public void testMap(){
+		Map<String, String> emp = new HashMap<>();
+		emp.put("job", "sales");
+		emp.put("salary","10000");
+		// 将map存储到redis中
+		jedis.hmset("emp", emp);
+		//根据key值获取集合对象
+		System.out.println(jedis.hmget("emp","job","salary"));
+		
+		// 删除map中一个键值对
+		jedis.hdel("emp", "job");
+		System.out.println(jedis.hmget("emp", "job","salary"));
+		
+		// 遍历所有的key值和所有的value
+		System.out.println("所有key值"+jedis.hkeys("emp"));
+		System.out.println("所有value值"+jedis.hvals("emp"));
+		
+		// 遍历map集合
+		Set<String> keys = jedis.hkeys("emp");
+		for (String key : keys) {
+			String value= jedis.hmget("emp", key).get(0);
+			System.out.println(key+"/"+value);
+		}
+	}
+	
+	
+	/**
+	 * list集合参数
+	 */
+	@Test
+	public void testlist(){
+		// 删除list集合
+		jedis.del("books");
+		jedis.lpush("books", "java");
+		jedis.lpush("books", "oracle");
+		jedis.lpush("books", "mysql");
+		
+		System.out.println(jedis.lrange("books", 1, -1));
+		System.out.println(jedis.llen("books"));
+	}
+	
+	
+	/**
+	 * jedis对set集合的操作
+	 */
+	@Test
+	public void testset(){
+		// 往集合中添加数据
+		jedis.sadd("users", "张三","李四","王五","赵六","李四");
+		// 输出集合
+		System.out.println(jedis.smembers("users"));
+		// 删除集合中的元素
+		jedis.srem("users", "张三");
+		System.out.println(jedis.smembers("users"));
+		
+		// 判断集合中是否含有某个元素
+		System.out.println(jedis.sismember("users", "王五"));
+		// 从集合中随机取出一个元素
+		System.out.println(jedis.srandmember("users"));
+		// 返回集合的长度
+		System.out.println(jedis.scard("users"));
+		
+	}
+	
+	
+	/**
+	 * jedis对有序集合的操作
+	 */
+	@Test
+	public void testZset(){
+		// 往集合中添加参数(集合名称，排序号，集合元素)
+		jedis.zadd("cities", 1,"北京");
+		jedis.zadd("cities", 1,"上海");
+		jedis.zadd("cities", 2,"广州");
+		jedis.zadd("cities", 3,"甘肃");
+		jedis.zadd("cities", 4,"陕西");
+		
+		// 取出集合中元素
+		System.out.println(jedis.zrange("cities", 1, 3));
+		//取出所有元素
+		System.out.println(jedis.zrange("cities", 0, -1));
+		
+		// 返回无序集合长度
+		 System.out.println(jedis.zcard("cities"));
+	}
+	
+	/**
+	 * jedis针对整合redis数据库的操作
+	 */
+	@Test
+	public void testDb(){
+		// 查询数据库所有key值
+		System.out.println(jedis.keys("*"));
+		// 查询所有带e字符的key值
+		 System.out.println(jedis.keys("*e*"));
+		
+		 // 删除一个key值
+		 jedis.del("cities","users","books");
+		 
+		 // 判断是否存在某个key值
+		 jedis.exists("cities");
+		 
+	}
+	
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+	<bean id="jdbcRealm" class="org.apache.shiro.realm.jdbc.JdbcRealm">
+		<property name="dataSource" ref="dbcp" />
+		<property name="authenticationQuery">
+			<value>
+				select pwd from emp where name=?
+			</value>
+		</property>
+		<property name="userRolesQuery">
+			<value>
+				select rname from role left join emp on emp.r_id=role.rid where name=?
+			</value>
+		</property>
+		<property name="permissionsLookupEnabled" value="true" />
+		<property name="permissionsQuery">
+			<value>
+				select pname from permission left join role_permission on
+				permission.pid=role_permission.pid left join role on
+				role.pid=role_permission.pid where rname=?
+			</value>
+		</property>
+	</bean>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realms">
+			<list>
+				<ref bean="jdbcRealm" />
+			</list>
+		</property>
+		<property name="filterChainDefinitions">
+		<value>
+		    /login/**=anon
+		    /back/**=authc
+			/super/**=authc,roles[admin]
+		</value>
+		</property>
+		<property name="loginUrl" value="login.jsp"></property>
+		<property name="unauthorizedUrl" value="noroles.jsp"></property>
+	</bean>
+
+	<!-- 配置securityManager -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+
+</beans>

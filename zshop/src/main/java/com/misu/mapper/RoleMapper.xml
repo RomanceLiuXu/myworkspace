@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <!-- 商品类型映射文件 -->
+ <mapper namespace="com.misu.mapper.RoleMapper">
+ 
+   
+    <sql id="roleColumn">
+        id,
+        role_name roleName
+    </sql>
+
+   <select id="selectAll" resultType="Role">
+       select <include refid="roleColumn"/>
+       from t_role
+   </select>
+   
+   
+   
+   
+   
+   
+ </mapper>

@@ -1,0 +1,12 @@
+package com.match.service;
+
+import com.match.service.interf.LoginServiceI;
+
+/**
+ *
+ * @author LiuXu
+ * @time2018年7月11日下午7:08:50
+ **/
+public class LoginServiceE implements LoginServiceI {
+
+}

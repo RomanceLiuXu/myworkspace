@@ -1,0 +1,9 @@
+package com.match.dao.interf;
+/**
+*
+* @author LiuXu
+* @time2018年7月11日下午7:06:57
+**/
+public interface LoginDaoI {
+
+}

@@ -1,0 +1,61 @@
+$.ajax({
+		url:"<%=basePath%>backend/product/selectNum",
+		type:"get",
+		success:function(data){
+			console.log(data);
+			var name = new Array();
+			var value = new Array();
+			
+			for (var i = 0; i < data.length; i++) {
+				name[i] = data[i].productTypeName;
+				value[i] = data[i].num;
+			}
+
+			console.log(name);
+			console.log(value);
+
+			var myChart = echarts.init(document.getElementById("main"));
+			var option={
+					/* 标题 */
+					title:{
+					text:'商品统计图'	
+					},
+					/* 图例 */
+					legend:{
+						data:['数量']
+					},
+					/* x轴 */
+					xAxis : {
+						data:name
+					},
+					/* y轴 */
+					yAxis : {
+					},
+					label:{
+						show:true
+					},
+					itemStyle:{
+						color:'#9AD932'
+// 						borderColor:'bule',
+// 						borderWidth:5
+					},
+					/* 数据源 */
+					series : [{
+						name: 'ZSHOP',
+						type:'bar',
+						data :value
+					}]
+					/*  tooltip:{
+						trigger:'item',
+						formatter:"{a}<br/>{b} : {c}({d}%)",
+					},
+					series:[{
+						name:'数据来源:ZSHOP',
+						type:'pie',
+						radius:'70%',
+						data:data
+					}]  */
+			};
+			myChart.setOption(option);
+		}
+	});

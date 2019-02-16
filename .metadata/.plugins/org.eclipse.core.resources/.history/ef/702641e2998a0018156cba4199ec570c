@@ -1,0 +1,41 @@
+<%@page import="com.lanou.bean.User"%>
+<%@page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html >
+<html>
+<head>
+<meta charset="UTF-8">
+<title>主页面</title>
+</head>
+<body>
+	<%
+	//String username=(String)session.getAttribute("username");
+	String username = (String)request.getAttribute("username");
+	//获取传来的所有数据(集合)
+	%>
+	<div><%=username %>,欢迎您</div>
+	
+	<table>
+	<thead>
+	<tr>
+	<th>uid</th>
+	<th>name</th>
+	<th>psw</th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+	<td></td>
+	<td></td>
+	<td></td>
+	</tr>
+	</tbody>
+	
+	</table>
+	<%
+	
+	
+	%>
+</body>
+</html>

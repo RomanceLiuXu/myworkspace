@@ -1,0 +1,33 @@
+1538410689746	Delete element
+1538410858979	Rename package 'com.misu.end.dao'
+1538410867942	Rename package 'com.misu.front.dao'
+1538411582962	Delete elements
+1538412161474	Delete elements
+1538412187786	Delete elements
+1538414454974	Delete elements
+1538414474912	Delete elements
+1538414551130	Rename resource 'login.html'
+1538414771869	Rename resource 'main.html'
+1538414803901	Rename resource 'customerManager.html'
+1538414832750	Rename resource 'productManager.html'
+1538414850901	Rename resource 'productTypeManager.html'
+1538414869767	Rename resource 'sysuserManager.html'
+1538443029814	Delete element
+1538445404559	Rename type 'productType'
+1538446365434	Rename resource 'productTypeMapper.xml'
+1538448725207	Rename package 'com.misu.front.service'
+1538448730692	Delete element
+1538466817393	Rename package 'com.misu.constant'
+1538486157825	Copy file
+1538546015756	Copy file
+1538578486444	Rename resource 'main.html'
+1538578581762	Move 'main.jsp' to 'webapp'
+1538578802656	Rename resource 'center.html'
+1538578903681	Delete element
+1538579125516	Delete elements
+1538620810355	Copy file
+1538620819703	Copy file
+1538641326401	Delete element
+1538729921642	Rename type 'ProductController'
+1538833727674	Delete element
+1538833749359	Delete element

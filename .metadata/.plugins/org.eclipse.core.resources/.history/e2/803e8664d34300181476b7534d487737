@@ -1,0 +1,15 @@
+package com.liuxu.normal;
+
+public class StringClass {
+
+	public static void main(String[] args) {
+	//字符串的赋值与比较
+    String a = "ab";
+    String b = "ab";
+    
+	
+	
+	
+	}
+
+}

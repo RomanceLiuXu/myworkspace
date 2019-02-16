@@ -1,0 +1,125 @@
+package com.misu.front.controller;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.misu.bean.Customer;
+import com.misu.common.OperationMessage;
+import com.misu.common.RedisUtils;
+import com.misu.service.CustomerService;
+import com.misu.utils.phoneVaildate.IndustrySMS;
+
+/**
+ *
+ * @author LiuXu
+ * @version 2018年10月5日下午11:36:44
+ */
+@Controller
+@RequestMapping
+public class FrontCustomerController {
+
+	@Autowired
+	private CustomerService cService;
+	@Autowired
+	private OperationMessage message;
+
+	@RequestMapping("register")
+	@ResponseBody
+	public OperationMessage addCustomer(Customer customer) {
+		try {
+			System.out.println(customer);
+			cService.addCustomer(customer);
+			message.setStatus(1);
+			message.setMessage("注册成功，请点击登录");
+		} catch (Exception e) {
+			message.setStatus(0);
+			message.setMessage("注册失败，请重试");
+		}
+		return message;
+	}
+
+	@RequestMapping("login")
+	@ResponseBody
+	public OperationMessage login(Customer customer, HttpSession session) {
+		System.out.println(customer);
+		Customer customer1 = cService.findCustomer(customer);
+		System.out.println(customer1);
+		if (customer1 != null) {
+			if (customer1.getIs_valid() == 1) {
+				session.setAttribute("customer", customer1);
+				message.setStatus(1);
+				message.setMessage("登录成功");
+			} else {
+				message.setStatus(0);
+				message.setMessage("抱歉，该用户已被锁定");
+			}
+
+		} else {
+			message.setStatus(0);
+			message.setMessage("账号名或密码错误");
+		}
+		return message;
+	}
+
+	@RequestMapping("checkPhone")
+	@ResponseBody
+	public OperationMessage checkPhone(String phone) {
+		Customer customer = cService.findCustomerByPhone(phone);
+		if (customer != null) {
+			String code = IndustrySMS.getRandomNum(6);
+			// IndustrySMS.execute(phone, code);
+			// 将数据存入redis，有效时间为2分钟
+			RedisUtils.set(phone, code, 2 * 60);
+			message.setStatus(1);
+			message.setMessage("验证码发送成功");
+		} else {
+			message.setStatus(0);
+			message.setMessage("手机还未注册，请先注册");
+		}
+		return message;
+	}
+
+	@RequestMapping("loginByPhone")
+	@ResponseBody
+	public OperationMessage loginByPhone(String phone, String code, HttpSession session) {
+		System.out.println("前段传来的数据:" + phone + ":" + code);
+		Customer customer = cService.findCustomerByPhone(phone);
+		System.out.println("查询的对象：" + customer);
+		if (customer != null) {
+			String loginCode = RedisUtils.get(phone);
+			System.out.println(loginCode);
+			if (loginCode != null) {
+				if (loginCode.equals(code)) {
+					if (customer.getIs_valid() == 1) {
+						session.setAttribute("customer", customer);
+						message.setStatus(1);
+						message.setMessage("登录成功");
+					} else {
+						message.setStatus(0);
+						message.setMessage("抱歉，该用户已被锁定");
+					}
+				} else {
+					message.setStatus(0);
+					message.setMessage("验证码错误");
+				}
+			} else {
+				message.setStatus(0);
+				message.setMessage("验证码不存在或已失效");
+			}
+		}
+		System.out.println("message:" + message);
+		return message;
+	}
+
+	@RequestMapping("loginOut")
+	public String loginOut(HttpSession session) {
+		if (session.getAttribute("customer") != null) {
+			session.removeAttribute("customer");
+		}
+		return "redirect:tomain";
+	}
+}

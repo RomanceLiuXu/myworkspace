@@ -1,0 +1,32 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!--  -->
+  <modelVersion>4.0.0</modelVersion>
+  <!-- 组织名：一般是包名、项目名 -->
+  <groupId>com.lanou.maven01</groupId>
+  <!-- 项目名：项目名称-模块名 -->
+  <artifactId>maven</artifactId>
+  <!-- 0.0.1版本号：
+  	第一个0：大版本号
+  	第一个0：分支版本号
+  	第一个0：小版本号
+  	
+  	SNAPSHOT：快照版 （说明当前这个项目处于开发阶段）
+  	alpha:内测版
+  	beat：公测版
+  	release：稳定版
+  	GA：正式发布版
+   -->
+  <version>0.0.1-SNAPSHOT</version>
+  <!-- 用于导入所有的依赖：jar -->
+  <dependencies>
+  <!--坐标：用于引用本地仓库中的jar包  -->
+  <!-- https://mvnrepository.com/artifact/junit/junit -->
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.12</version>
+    <!-- 指定该依赖的依赖范围：在哪个阶段有效 -->
+    <scope>test</scope>
+</dependency>
+ </dependencies>
+</project>

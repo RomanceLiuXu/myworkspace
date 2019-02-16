@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 密码匹配器 -->
+	<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+		<!-- 算法 -->
+		<property name="hashAlgorithmName" value="${shiro.hashAlgorithm}"/>
+		<!--散列次数 -->
+		<property name="hashIterations" value="${shiro.hashIterations}"/>
+		<!-- 编码方式 -->
+		<property name="storedCredentialsHexEncoded" value="true"/>
+	</bean>
+
+	<bean id="jdbcRealm" class="com.misu.utils.JdbcSaltRealm">
+		<!-- 数据源 -->
+		<property name="dataSource" ref="dbcp" />
+		<!-- 密码匹配器 -->
+		<property name="credentialsMatcher" ref="credentialsMatcher" />
+		<!-- 重写带salt的sql -->
+		<property name="authenticationQuery" >
+			<value>
+			SELECT password,login_name FROM t_sysuser WHERE login_name= ?
+			</value>
+		</property>
+		<!-- 重写查询权限的sql -->
+		<property name="userRolesQuery">
+			<value>
+			SELECT role_name from t_sysuser ts  left join t_role tr on ts.role_id=tr.id  WHERE ts.name = ?
+			</value>
+		</property>
+	</bean>
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realms">
+			<list>
+				<ref bean="jdbcRealm" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- 定义一个名为shiroFilter的bean，用来配置url过滤规则 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager"></property>
+	<!-- 定义url过滤规则 -->
+	<property name="filterChainDefinitions">
+		<value>
+			/backend/**=authc
+		</value>
+	</property>
+	<!-- 重写默认的登录失败页面，默认为login.jsp -->
+	<property name="loginUrl" value="/manager/login.jsp"></property>
+	</bean>
+</beans>

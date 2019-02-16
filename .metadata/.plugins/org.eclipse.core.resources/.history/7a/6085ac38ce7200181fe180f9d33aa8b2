@@ -1,0 +1,75 @@
+package work;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * 常用类 --Date
+ * 
+ * @author asus
+ *
+ */
+public class Test {
+
+	/*
+	 * 主函数
+	 */
+	public static void main(String[] args) {
+
+		// 实例化 --获取当前的时间
+		Date date = new Date();
+
+		System.out.println(date);
+
+		// 常见方法
+		// 获取当前时间的时间戳---1970-01-01 00:00到现在的毫秒数
+		long d1 = date.getTime();
+		System.out.println(d1);
+
+		// 将时间戳转换为日期
+		Date date2 = new Date(d1);
+		System.out.println(date2);
+
+		// 获取当前年份
+		int year = date.getYear() + 1900;// 1900年为0
+		System.out.println(year);
+		// 获取月份
+		int mon = date.getMonth() + 1;//月份是从0开始
+		System.out.println(mon);
+//		获取当前时期是当月的第几天
+		int d2 = date.getDate();
+        System.out.println(d2);
+//        获取当前是本月的星期几
+        int d3= date.getDay();
+        System.out.println(d3);
+        
+//        格式化日期
+//        第一种格式
+        SimpleDateFormat d4 = new SimpleDateFormat("yyyy年MM月dd日hh时mm分ss秒 E");
+       String dString =  d4.format(new Date());
+       System.out.println(dString);
+       
+//       第二种格式
+       SimpleDateFormat dfDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss E D");
+       String dString2 = d4.format(new Date());
+       System.out.println(dString2);
+       
+       
+//       将字符串转换为日期
+       String string = "2018年04月27日";
+       SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月dd日");
+	try {
+		Date date3 = df.parse(string);
+		System.out.println(date3);
+	} catch (ParseException e) {
+	
+		e.printStackTrace();
+	}
+       
+
+	
+	
+	}
+
+}
